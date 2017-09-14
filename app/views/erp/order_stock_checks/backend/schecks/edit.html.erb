@@ -1,0 +1,21 @@
+<% content_for :title do %>
+    <%= t('.edit') %>
+<% end %>
+
+<% content_for :page_title do %>    
+    <a href="<%= erp_order_stock_checks.backend_schecks_path %>">
+    <i class="glyphicon glyphicon-check"></i> <%= t('.stock_checks') %>
+    </a> / <%= @scheck.code %> / <%= t('.edit') %>
+<% end %>
+
+<div class="row">
+    <div class="col-md-12">
+        <% if @scheck.errors.any? %>
+            <%= erp_form_control("form_error_message") %>
+        <% end %>
+        
+        <!-- BEGIN SAMPLE FORM PORTLET-->
+        <%= render 'form', scheck: @scheck %>
+        <!-- END SAMPLE FORM PORTLET-->
+    </div>
+</div>

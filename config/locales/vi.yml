@@ -1,0 +1,67 @@
+vi:
+  
+  erp:
+    order_stock_checks:
+      backend:
+        schecks:
+          index:
+            orders: "Kiểm tra đơn hàng"
+            order_code: "Mã đơn hàng"
+            customer: "Khách hang"
+            total: "Tổng giá trị"
+            order_date: "Ngày đặt"
+            status: "Trạng thái"
+            employee: "Nhân viên bán"
+            creator: "Người tạo"
+            created_at: "Ngày tạo"
+          list:
+            order_code: "Mã đơn hàng"
+            customer: "Khách hàng"
+            total: "Tổng giá trị"
+            order_date: "Ngày đặt"
+            status: "Trạng thái"
+            employee: "Nhân viên bán"
+            creator: "Người tạo"
+            created_at: "Ngày tạo"
+            actions: "Thao tác"
+            check: "Kiểm tra kho"
+            achieve: "Hoàn thành"
+            stock_checking: "Đang chờ kiểm tra"
+            stock_checked: "Đã kiểm tra hàng"
+            stock_approved: "Đã duyệt đủ hàng"
+          new:
+            stock_checks: "Kiểm tra đơn hàng"
+            create: "Thêm phiếu kiểm"
+            order_code: "Mã đơn hàng"
+          edit:
+            stock_checks: "Kiểm tra đơn hàng"
+            edit: "Chỉnh sửa"
+          form:
+            code: "Mã kiểm tra"
+            help_scheck_code: "Mã sẽ tạo mặc định nếu bạn không nhập"
+            placeholder_scheck_code: "Mã phiếu kiểm tra đơn hàng trong kho"
+            employee: "Nhân viên - Người kiểm tra"
+            choose_employee: "Chọn nhân viên kiểm tra"
+            product_code: "Mã hàng"
+            product_name: "Tên hàng hóa"
+            product_diameter: "Đường kính"
+            product_category: "Loại hàng"
+            product_unit: "Đơn vị tính"
+            product_price: "Giá bán"
+            product_quantity: "Số lượng"
+            available: "Hàng đang có sẵn"
+            note: "Ghi chú"
+            placeholder_note: "Thêm vào ghi chú..."
+            alternative_items: "Hàng thay thế"
+            placeholder_alternative_items: "Gợi ý hàng thay thế"
+            submit: "Lưu tạm"
+            submit_confirm: "Lưu và xác nhận"
+            cancel: "Hủy"
+          scheck_details:
+            product_name: "Tên hàng hóa"
+            product_unit: "Đơn vị tính"
+            product_price: "Giá bán"
+            quantity: "SL cần bán"
+            available: "Hiện sẵn có"
+            note: "Ghi chú"
+            alternative_items: "Hàng thay thế"

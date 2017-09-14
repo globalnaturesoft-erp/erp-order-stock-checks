@@ -1,0 +1,158 @@
+<%= form_for([erp_order_stock_checks, :backend, scheck]) do |f| %>
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
+                        <input type="hidden" value="<%= scheck.order_id %>" name="scheck[order_id]" >
+                        <div class="row">
+                            <div class="col-md-6">
+                                <%= erp_form_control("text", {
+                                    name: 'scheck[code]',
+                                    value: scheck.code,
+                                    label: t('.code'),
+                                    help: t('.help_scheck_code'),
+                                    placeholder: t('.placeholder_scheck_code'),
+                                    required: true,
+                                    errors: scheck.errors.full_messages_for(:code)
+                                }) %>
+                            </div>
+                            <div class="col-md-6">
+                                <%= erp_form_control("dataselect", {
+                                    name: 'scheck[employee_id]',
+                                    value: scheck.employee_id,
+                                    text: scheck.employee_name,
+                                    placeholder: t('.choose_employee'),
+                                    label: t('.employee'),
+                                    url: erp.dataselect_backend_users_path(format: 'json'),
+                                    required: true,
+                                    errors: scheck.errors.full_messages_for(:employee_id)
+                                }) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-advance table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%" class="text-left"><%= t('.product_name') %></th>
+                                            <th class="text-left"><%= t('.product_unit') %></th>
+                                            <th class="text-right"><%= t('.product_price') %></th>
+                                            <th class="text-right"><%= t('.product_quantity') %></th>
+                                            <th class="text-center"><%= t('.available') %></th>
+                                            <th width="20%" class="text-right"><%= t('.note') %></th>
+                                            <th width="20%" class="text-right"><%= t('.alternative_items') %></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="addableform-container">
+                                        <% @scheck.scheck_details.each_with_index do |scheck_detail, index| %>
+                                            <input type="hidden" name="scheck[scheck_details_attributes][<%= index.to_s %>][id]" value="<%= scheck_detail.id %>">  
+                                            <input type="hidden" name="scheck[scheck_details_attributes][<%= index.to_s %>][order_detail_id]" value="<%= scheck_detail.order_detail_id %>">
+                                            <tr class="addableform-line">
+                                                <td><%= scheck_detail.order_detail.product_name %></td>
+                                                <td><%= scheck_detail.order_detail.product_unit_name %></td>
+                                                <td class="text-right"><%= format_price(scheck_detail.order_detail.product.price) %></td>
+                                                <td class="text-right"><%= scheck_detail.order_detail.quantity %></td>
+                                                <td class="text-center">
+                                                    <%= erp_form_control('checkbox', {
+                                                        name: 'scheck[scheck_details_attributes]['+index.to_s+'][available]',
+                                                        id: 'scheck_detail_available',
+                                                        value: scheck_detail.available,
+                                                        not_selected_value: 'false',
+                                                        options: [{value: 'true'}]
+                                                    }) %>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (8)
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="javascript:;"> ADV
+                                                                    <span class="badge badge-success"> 3 </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:;"> SG
+                                                                    <span class="badge badge-success"> 3 </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:;"> TRAINING
+                                                                    <span class="badge badge-success"> 2 </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                   <%= erp_form_control('textarea', {
+                                                        name: 'scheck[scheck_details_attributes]['+index.to_s+'][note]',
+                                                        value: scheck_detail.note,
+                                                        placeholder: t('.placeholder_note'),
+                                                        rows: 1
+                                                    }) %>
+                                                </td>
+                                                <td>
+                                                    <%= erp_form_control("dataselect", {
+                                                        name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]',
+                                                        values: Erp::Products::Product.where(id: scheck_detail.get_alternative_item_ids).map {|p| {text: p.name, value: p.id}},
+                                                        placeholder: t('.placeholder_alternative_items'),
+                                                        url: erp_products.dataselect_backend_products_path(format: 'json'),
+                                                        multiple: true
+                                                    }) %>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> E12-11.6-Toric (8)
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="javascript:;"> ADV
+                                                                    <span class="badge badge-success"> 3 </span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:;"> SG
+                                                                    <span class="badge badge-success"> 3 </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> E11-10.8-Standard (3)
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="javascript:;"> ADV
+                                                                    <span class="badge badge-success"> 3 </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% end %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type='submit' class="btn green-seagreen" name="act" value="Lưu tạm" />
+    <input type='submit' class="btn green-seagreen" name="act" value="Hoàn thành" />
+    <%= erp_component('button/cancel', {
+        text: t('.cancel'),
+        href: erp_order_stock_checks.backend_schecks_path
+    }) %>
+<% end %>

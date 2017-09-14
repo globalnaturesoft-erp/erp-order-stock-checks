@@ -1,0 +1,52 @@
+<% content_for :title do %>
+    <%= t('.orders') %>
+<% end %>
+
+<% content_for :page_title do %>
+    <i class="icon-pie-chart"></i> <%= t('.orders') %>
+<% end %>
+
+<% content_for :global_filter do %>
+    <div class="row top-datalist">
+        
+    </div>
+<% end %>
+
+<%= erp_datalist(
+    url: erp_order_stock_checks.list_backend_schecks_path,
+    keywords: [
+        
+    ],
+    actions: [
+        
+    ],
+    filters: [
+        
+    ],
+    columns: [
+        {
+            text: t('.order_code'), name: 'order_code', value: true, checked: true
+        },
+        {
+            text: t('.customer'), name: 'customer', value: true, checked: true
+        },
+        {
+            text: t('.total'), name: 'total', value: true, checked: true
+        },
+        {
+            text: t('.order_date'), name: 'order_date', value: true, checked: true
+        },
+        {
+            text: t('.status'), name: 'status', value: true, checked: true
+        },
+        {
+            text: t('.employee'), name: 'employee', value: true, checked: true
+        },
+        {
+            text: t('.creator'), name: 'creator', value: true, checked: false
+        },
+        {
+            text: t('.created_at'), name: 'created_at', value: true, checked: false
+        }
+    ]
+) %>
