@@ -21,7 +21,15 @@
         
     ],
     filters: [
-        
+        {
+            text: t('.stock_checking'), name: 'status', value: Erp::Orders::Order::STATUS_STOCK_CHECKING, checked: true
+        },
+        {
+            text: t('.stock_checked'), name: 'status', value: Erp::Orders::Order::STATUS_STOCK_CHECKED, checked: false
+        },
+        {
+            text: t('.stock_approved'), name: 'status', value: Erp::Orders::Order::STATUS_STOCK_APPROVED, checked: false
+        },
     ],
     columns: [
         {

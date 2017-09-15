@@ -14,6 +14,9 @@ vi:
             employee: "Nhân viên bán"
             creator: "Người tạo"
             created_at: "Ngày tạo"
+            stock_checking: "Đang chờ kiểm tra"
+            stock_checked: "Đã kiểm tra"
+            stock_approved: "Đã duyệt đủ"
           list:
             order_code: "Mã đơn hàng"
             customer: "Khách hàng"
