@@ -1,0 +1,36 @@
+<% Erp::Products::Product.where(id: params[:ids].split(',')).each do |p| %>
+    <%
+        total = rand(0..8)
+        stock1 = rand(0..total)
+        stock2 = total-stock1
+    %>
+    <div class="btn-group">
+        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> <%= p.name %> (<%= total %>)
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="javascript:;"> ADV
+                    <span class="badge badge-success"> <%= stock1 %> </span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;"> SG
+                    <span class="badge badge-success"> <%= stock2 %> </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+<% end %>
+   <!-- <div class="btn-group">
+        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> E11-10.8-Standard (3)
+            <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="javascript:;"> ADV
+                    <span class="badge badge-success"> 3 </span>
+                </a>
+            </li>
+        </ul>
+    </div>-->

@@ -6,6 +6,7 @@ Erp::OrderStockChecks::Engine.routes.draw do
           post 'list'
           get 'scheck_details'
           put 'set_done'
+          get 'warehouse_info'
         end
       end
       resources :scheck_details do
