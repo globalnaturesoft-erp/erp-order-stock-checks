@@ -1,35 +1,68 @@
 <%= form_for([erp_order_stock_checks, :backend, scheck]) do |f| %>
     <div class="form-body">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="portlet light bordered">
                     <div class="portlet-body form">
                         <input type="hidden" value="<%= scheck.order_id %>" name="scheck[order_id]" >
                         <div class="row">
                             <div class="col-md-6">
-                                <%= erp_form_control("text", {
-                                    name: 'scheck[code]',
-                                    value: scheck.code,
-                                    label: t('.code'),
-                                    help: t('.help_scheck_code'),
-                                    placeholder: t('.placeholder_scheck_code'),
-                                    required: true,
-                                    errors: scheck.errors.full_messages_for(:code)
-                                }) %>
+                                <div class="form-group">
+                                    <label><%= t('.order_code') %>:</label>
+                                    <div class="form-control">
+                                        <span><%= @order.code %></span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <%= erp_form_control("dataselect", {
-                                    name: 'scheck[employee_id]',
-                                    value: scheck.employee_id,
-                                    text: scheck.employee_name,
-                                    placeholder: t('.choose_employee'),
-                                    label: t('.employee'),
-                                    url: erp.dataselect_backend_users_path(format: 'json'),
-                                    required: true,
-                                    errors: scheck.errors.full_messages_for(:employee_id)
-                                }) %>
+                                <div class="form-group">
+                                    <label><%= t('.order_date') %>:</label>
+                                    <div class="form-control">
+                                        <span><%= format_date(@order.order_date) %></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label><%= t('.customer') %>:</label>
+                            <div class="form-control">
+                                <span><%= @order.customer_name %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="portlet light bordered">
+                    <div class="portlet-body form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><%= t('.salesperson') %>:</label>
+                                    <div class="form-control">
+                                        <span><%= @order.employee_name %></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><%= t('.time_request') %>:</label>
+                                    <div class="form-control">
+                                        <span><%= @order.updated_at %></span> <!-- @todo thời gian gửi yêu cầu về đề nghị kiểm tra -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%= erp_form_control("dataselect", {
+                            name: 'scheck[employee_id]',
+                            value: scheck.employee_id,
+                            text: scheck.employee_name,
+                            placeholder: t('.choose_storage_staff'),
+                            label: t('.storage_staff'),
+                            url: erp.dataselect_backend_users_path(format: 'json'),
+                            required: true,
+                            errors: scheck.errors.full_messages_for(:employee_id)
+                        }) %>
                     </div>
                 </div>
             </div>
@@ -149,8 +182,8 @@
             </div>
         </div>
     </div>
-    <input type='submit' class="btn green-seagreen" name="act" value="Lưu tạm" />
-    <input type='submit' class="btn green-seagreen" name="act" value="Hoàn thành" />
+    <input type='submit' class="btn green-seagreen" name="act" value="<%= Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DRAFT %>" />
+    <input type='submit' class="btn green-seagreen" name="act" value="<%= Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DONE %>" />
     <%= erp_component('button/cancel', {
         text: t('.cancel'),
         href: erp_order_stock_checks.backend_schecks_path

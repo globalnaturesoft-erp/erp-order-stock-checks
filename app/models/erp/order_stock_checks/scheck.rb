@@ -15,6 +15,10 @@ module Erp::OrderStockChecks
     STATUS_DRAFT = 'draft'
     STATUS_DONE = 'done'
     
+    # todo value for input submit
+    BUTTON_VALUE_DRAFT = 'Lưu tạm'
+    BUTTON_VALUE_DONE = 'Hoàn thành'
+    
     def employee_name
       employee.present? ? employee.name : ''
     end

@@ -2,7 +2,8 @@ module Erp
   module OrderStockChecks
     module Backend
       class SchecksController < Erp::Backend::BackendController
-        before_action :set_order_stock_check, only: [:show, :edit, :update, :destroy]
+        before_action :set_scheck, only: [:show, :edit, :update, :destroy,
+                                          :set_done]
     
         # GET /order_stock_checks
         def index
@@ -25,9 +26,10 @@ module Erp
     
         # GET /order_stock_checks/new
         def new
-          @scheck = Scheck.new
-          
           @order = Erp::Orders::Order.find(params[:order_id])
+          authorize! :stock_check, @order
+          
+          @scheck = Scheck.new
           @scheck.employee = current_user
           @scheck.order = @order
           @order.order_details.each do |ord|
@@ -43,6 +45,8 @@ module Erp
     
         # GET /order_stock_checks/1/edit
         def edit
+          authorize! :stock_check_exist, @scheck.order
+          @order = Erp::Orders::Order.find(@scheck.order_id)
         end
     
         # POST /order_stock_checks
@@ -67,7 +71,7 @@ module Erp
                 value: @scheck.id
               }
             else
-              redirect_to erp_order_stock_checks.edit_backend_scheck_path(@scheck), notice: t('.success')
+              redirect_to erp_order_stock_checks.backend_schecks_path, notice: t('.success')
             end
           else
             if request.xhr?
@@ -82,9 +86,9 @@ module Erp
         def update
           if @scheck.update(scheck_params)
             
-            if params.to_unsafe_hash[:act] == 'Lưu tạm'
+            if params.to_unsafe_hash[:act] == Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DRAFT
               @scheck.set_draft
-            elsif params.to_unsafe_hash[:act] == 'Hoàn thành'
+            elsif params.to_unsafe_hash[:act] == Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DONE
               @scheck.set_done
               @scheck.update_order_status # Cập nhật trạng thái cho đơn hàng đã được kiểm tra
             end
@@ -96,7 +100,7 @@ module Erp
                 value: @scheck.id
               }
             else
-              redirect_to erp_order_stock_checks.edit_backend_scheck_path(@scheck), notice: t('.success')
+              redirect_to erp_order_stock_checks.backend_schecks_path, notice: t('.success')
             end
           else
             render :edit
@@ -117,10 +121,26 @@ module Erp
             }
           end
         end
+        
+        # Set DONE /order_stock_checks/set_done?id=1
+        def set_done
+          authorize! :confirm_stock_check, @scheck.order
+          @scheck.set_done
+          @scheck.update_order_status
+
+          respond_to do |format|
+          format.json {
+            render json: {
+            'message': t('.success'),
+            'type': 'success'
+            }
+          }
+          end
+        end
     
         private
           # Use callbacks to share common setup or constraints between actions.
-          def set_order_stock_check
+          def set_scheck
             @scheck = Scheck.find(params[:id])
           end
     

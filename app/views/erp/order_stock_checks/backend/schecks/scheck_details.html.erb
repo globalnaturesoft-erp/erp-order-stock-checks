@@ -1,34 +1,30 @@
-<div class="col-md-12">
-    <div class="portlet-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped flip-content">
-                <thead class="flip-content">
-                    <tr>
-                        <th width="20%" class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.product_name') %></th>
-                        <th class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.product_unit') %></th>
-                        <th class="bg-yellow bg-font-yellow text-nowrap text-right"><%= t('.product_price') %></th>
-                        <th class="bg-yellow bg-font-yellow text-nowrap text-right"><%= t('.quantity') %></th>
-                        <th class="bg-yellow bg-font-yellow text-nowrap text-center"><%= t('.available') %></th>
-                        <th width="20%" class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.note') %></th>
-                        <th class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.alternative_items') %></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% @scheck.scheck_details.order('created_at desc').each do |scheck_detail| %>
-                    <tr>                            
-                        <td class="text-left"><%= scheck_detail.order_detail.product_name %></td>
-                        <td class="text-left"><%= scheck_detail.order_detail.product_unit_name %></td>
-                        <td class="text-right"><%= format_price(scheck_detail.order_detail.price) %></td>
-                        <td class="text-right"><%= scheck_detail.order_detail.quantity %></td>
-                        <td class="text-center">
-                            <%= raw scheck_detail.available? ? '<i class="fa fa-check font-green-jungle"></i>' : '<i class="fa fa-close font-red-thunderbird"></i>' %>
-                        </td>
-                        <td class="text-left"><%= scheck_detail.note %></td>
-                        <td class="text-left"><%= raw scheck_detail.get_alternative_item_names.join('<br>') %></td>
-                    </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped flip-content">
+        <thead class="flip-content">
+            <tr>
+                <th width="20%" class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.product_name') %></th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.product_unit') %></th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right"><%= t('.product_price') %></th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-right"><%= t('.quantity') %></th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-center"><%= t('.available') %></th>
+                <th width="20%" class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.note') %></th>
+                <th class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.alternative_items') %></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @scheck.scheck_details.order('created_at desc').each do |scheck_detail| %>
+            <tr>                            
+                <td class="text-left"><%= scheck_detail.order_detail.product_name %></td>
+                <td class="text-left"><%= scheck_detail.order_detail.product_unit_name %></td>
+                <td class="text-right"><%= format_price(scheck_detail.order_detail.price) %></td>
+                <td class="text-right"><%= scheck_detail.order_detail.quantity %></td>
+                <td class="text-center">
+                    <%= raw scheck_detail.available? ? '<i class="fa fa-check font-green-jungle"></i>' : '<i class="fa fa-close font-red-thunderbird"></i>' %>
+                </td>
+                <td class="text-left"><%= scheck_detail.note %></td>
+                <td class="text-left"><%= raw scheck_detail.get_alternative_item_names.join('<br>') %></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
 </div>

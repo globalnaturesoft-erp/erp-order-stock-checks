@@ -4,8 +4,8 @@
 
 <% content_for :page_title do %>    
     <a href="<%= erp_order_stock_checks.backend_schecks_path %>">
-    <i class="glyphicon glyphicon-check"></i> <%= t('.stock_checks') %>
-    </a> / <%= @scheck.code %> / <%= t('.edit') %>
+    <i class="icon-check"></i> <%= t('.stock_checks') %>
+    </a> / <%= t('.edit') %> <%= @scheck.code %>
 <% end %>
 
 <div class="row">

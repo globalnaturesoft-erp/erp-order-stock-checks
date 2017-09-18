@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :page_title do %>
-    <i class="icon-pie-chart"></i> <%= t('.orders') %>
+    <i class="icon-check"></i> <%= t('.orders') %>
 <% end %>
 
 <% content_for :global_filter do %>
@@ -37,9 +37,6 @@
         },
         {
             text: t('.customer'), name: 'customer', value: true, checked: true
-        },
-        {
-            text: t('.total'), name: 'total', value: true, checked: true
         },
         {
             text: t('.order_date'), name: 'order_date', value: true, checked: true

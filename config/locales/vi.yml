@@ -4,6 +4,12 @@ vi:
     order_stock_checks:
       backend:
         schecks:
+          create:
+            success: "Thêm thành công phiếu kiểm tra đơn hàng"
+          update:
+            success: "Cập nhật thành công phiếu kiểm tra đơn hàng"
+          schecks:
+            set_done: "Phiếu kiểm tra đơn hàng đã được xác nhận là hoàn thành"
           index:
             orders: "Kiểm tra đơn hàng"
             order_code: "Mã đơn hàng"
@@ -27,24 +33,32 @@ vi:
             creator: "Người tạo"
             created_at: "Ngày tạo"
             actions: "Thao tác"
-            check: "Kiểm tra kho"
+            start_check: "Kiểm tra kho"
+            continue_check: "Tiếp tục kiểm tra"
             achieve: "Hoàn thành"
+            achieve_confirm: "Bạn chắc chắn đã hoàn thành quá trình kiểm kho?"
             stock_checking: "Đang chờ kiểm tra"
             stock_checked: "Đã kiểm tra hàng"
             stock_approved: "Đã duyệt đủ hàng"
+            no_matching_records_found: "Hiện không tìm thấy kết quả phù hợp trong danh sách"
           new:
             stock_checks: "Kiểm tra đơn hàng"
-            create: "Thêm phiếu kiểm"
+            create: "Tạo phiếu kiểm tra"
             order_code: "Mã đơn hàng"
           edit:
             stock_checks: "Kiểm tra đơn hàng"
-            edit: "Chỉnh sửa"
+            edit: "Cập nhật phiếu kiểm tra"
           form:
             code: "Mã kiểm tra"
             help_scheck_code: "Mã sẽ tạo mặc định nếu bạn không nhập"
             placeholder_scheck_code: "Mã phiếu kiểm tra đơn hàng trong kho"
-            employee: "Nhân viên - Người kiểm tra"
-            choose_employee: "Chọn nhân viên kiểm tra"
+            order_code: "Mã đơn hàng"
+            order_date: "Thời gian đặt hàng"
+            time_request: "Yêu cầu kiểm tra được gửi lúc"
+            customer: "Khách hàng"
+            salesperson: "Nhân viên bán hàng"
+            storage_staff: "Nhân viên kiểm tra kho"
+            choose_storage_staff: "Chọn nhân viên kiểm tra"
             product_code: "Mã hàng"
             product_name: "Tên hàng hóa"
             product_diameter: "Đường kính"
