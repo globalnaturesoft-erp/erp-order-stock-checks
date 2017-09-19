@@ -109,25 +109,17 @@
                                                         stock3 = total-stock1-stock2
                                                     %>
                                                     <div class="btn-group">
-                                                        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= total %>)
+                                                        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock %>)
                                                             <i class="fa fa-angle-down"></i>
                                                         </a>
                                                         <ul class="dropdown-menu">
-                                                            <li>
-                                                                <a href="javascript:;"> ADV
-                                                                    <span class="badge badge-success"> <%= stock1 %> </span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:;"> SG
-                                                                    <span class="badge badge-success"> <%= stock2 %> </span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:;"> TRAINING
-                                                                    <span class="badge badge-success"> <%= stock3 %> </span>
-                                                                </a>
-                                                            </li>
+                                                            <% Erp::Warehouses::Warehouse.all_active.each do |warehouse| %>
+                                                                <li>
+                                                                    <a href="javascript:;"> <%= warehouse.name %>
+                                                                        <span class="badge badge-success"> <%= scheck_detail.order_detail.product.get_stock(warehouse: warehouse) %> </span>
+                                                                    </a>
+                                                                </li>
+                                                            <% end %>                                                            
                                                         </ul>
                                                     </div>
                                                 </td>
