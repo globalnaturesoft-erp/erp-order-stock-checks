@@ -72,7 +72,7 @@ vi:
             alternative_items: "Hàng thay thế"
             placeholder_alternative_items: "Gợi ý hàng thay thế"
             submit: "Lưu tạm"
-            submit_confirm: "Lưu và xác nhận"
+            submit_confirm: "Hoàn thành"
             cancel: "Hủy"
           scheck_details:
             product_name: "Tên hàng hóa"

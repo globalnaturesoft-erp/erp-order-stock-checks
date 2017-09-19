@@ -193,8 +193,8 @@
             </div>
         </div>
     </div>
-    <input type='submit' class="btn green-seagreen" name="act" value="<%= Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DRAFT %>" />
-    <input type='submit' class="btn green-seagreen" name="act" value="<%= Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DONE %>" />
+    <input type='submit' class="btn green-seagreen" name="act_draft" value="<%= t('.submit') %>" />
+    <input type='submit' class="btn green-seagreen" name="act_done" value="<%= t('.submit_confirm') %>" />
     <%= erp_component('button/cancel', {
         text: t('.cancel'),
         href: erp_order_stock_checks.backend_schecks_path

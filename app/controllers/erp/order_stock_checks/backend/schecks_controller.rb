@@ -2,8 +2,7 @@ module Erp
   module OrderStockChecks
     module Backend
       class SchecksController < Erp::Backend::BackendController
-        before_action :set_scheck, only: [:show, :edit, :update, :destroy,
-                                          :set_done]
+        before_action :set_scheck, only: [:edit, :update, :set_done]
     
         # GET /order_stock_checks
         def index
@@ -18,10 +17,6 @@ module Erp
         
         def scheck_details
           @scheck = Erp::OrderStockChecks::Scheck.where(order_id: params[:order_id]).order('created_at desc').first # Get newest stock check
-        end
-    
-        # GET /order_stock_checks/1
-        def show
         end
     
         # GET /order_stock_checks/new
@@ -57,9 +52,9 @@ module Erp
           
           if @scheck.save
             
-            if params.to_unsafe_hash[:act] == 'Lưu tạm'
+            if params.to_unsafe_hash[:act_draft].present?
               @scheck.set_draft
-            elsif params.to_unsafe_hash[:act] == 'Hoàn thành'
+            elsif params.to_unsafe_hash[:act_done].present?
               @scheck.set_done
               @scheck.update_order_status # Cập nhật trạng thái cho đơn hàng đã được kiểm tra
             end
@@ -86,9 +81,9 @@ module Erp
         def update
           if @scheck.update(scheck_params)
             
-            if params.to_unsafe_hash[:act] == Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DRAFT
+            if params.to_unsafe_hash[:act_draft].present?
               @scheck.set_draft
-            elsif params.to_unsafe_hash[:act] == Erp::OrderStockChecks::Scheck::BUTTON_VALUE_DONE
+            elsif params.to_unsafe_hash[:act_done].present?
               @scheck.set_done
               @scheck.update_order_status # Cập nhật trạng thái cho đơn hàng đã được kiểm tra
             end
@@ -104,21 +99,6 @@ module Erp
             end
           else
             render :edit
-          end
-        end
-    
-        # DELETE /order_stock_checks/1
-        def destroy
-          @scheck.destroy
-          
-          respond_to do |format|
-            format.html { redirect_to erp_order_stock_checks.backend_schecks_path, notice: t('.success') }
-            format.json {
-              render json: {
-                'message': t('.success'),
-                'type': 'success'
-              }
-            }
           end
         end
         
