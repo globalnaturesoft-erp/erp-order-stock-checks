@@ -4,6 +4,8 @@ vi:
     order_stock_checks:
       backend:
         schecks:
+          set_done:
+            success: "Đơn hàng đã được kiểm tra xong"
           create:
             success: "Thêm thành công phiếu kiểm tra đơn hàng"
           update:
