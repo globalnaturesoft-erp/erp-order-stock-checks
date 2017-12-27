@@ -24,6 +24,11 @@
                     <%= t('.status') %>
                 </th>
             <% end %>
+            <% if Erp::Core.available?('ortho_k') %>
+                <th class="text-center">
+                    TTKK
+                </th>
+            <% end %>
             <% if get_columns(params).include?("employee") %>
                 <th class="text-center">
                     <%= t('.employee') %>
@@ -64,6 +69,11 @@
                 <td>
                     <%= status_label(order.status) %>
                 </td>
+                <% end %>
+                <% if Erp::Core.available?('ortho_k') %>
+                    <td class="text-center">
+                        <span class="badge badge-info"><%= order.checking_order.to_i %></span>
+                    </td>
                 <% end %>
                 <% if get_columns(params).include?("employee") %>
                 <td>
