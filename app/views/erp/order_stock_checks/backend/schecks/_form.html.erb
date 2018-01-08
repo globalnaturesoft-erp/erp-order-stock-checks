@@ -77,9 +77,11 @@
                                     <thead>
                                         <tr>
                                             <th class="text-left text-nowrap"><%= t('.product_name') %></th>
-                                            <th class="text-right"><%= t('.product_price') %></th>
                                             <th class="text-center"><%= t('.product_quantity') %></th>
                                             <th class="text-center"><%= t('.available') %></th>
+                                            <% if Erp::Core.available?("ortho_k") %>
+                                                <th class="text-left"><%= 'Đ.kiện thay thế' %></th>
+                                            <% end %>
                                             <th width="20%" class="text-right"><%= t('.alternative_items') %></th>
                                             <th width="10%"></th>
                                             <th width="15%" class="text-right"><%= t('.note') %></th>
@@ -91,7 +93,6 @@
                                             <input type="hidden" name="scheck[scheck_details_attributes][<%= index.to_s %>][order_detail_id]" value="<%= scheck_detail.order_detail_id %>">
                                             <tr class="addableform-line">
                                                 <td><%= scheck_detail.order_detail.product_name %></td>
-                                                <td class="text-right"><%= format_price(scheck_detail.order_detail.product.price) %></td>
                                                 <td class="text-center">
                                                     <span class="text-semibold"><%= scheck_detail.order_detail.quantity %></span>
                                                     <br />
@@ -119,6 +120,12 @@
                                                         options: [{value: 'true'}]
                                                     }) %>
                                                 </td>
+                                                <% if Erp::Core.available?("ortho_k") %>
+                                                    <td class="text-left">
+                                                        <div><%= 'Cùng mã hàng' if scheck_detail.order_detail.must_same_code? %></div>
+                                                        <div><%= 'Cùng đường kính' if scheck_detail.order_detail.must_same_diameter? %></div>
+                                                    </td>
+                                                <% end %>
                                                 <td>
                                                     <%= erp_form_control("dataselect", {
                                                         name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]',
