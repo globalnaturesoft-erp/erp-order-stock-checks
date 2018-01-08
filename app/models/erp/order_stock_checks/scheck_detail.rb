@@ -10,10 +10,16 @@ module Erp::OrderStockChecks
       items = items.collect {|item| item.to_i}
     end
     
-    def get_alternative_item_names
+    # get alternative items / products list
+    def get_alternative_items
       ids = get_alternative_item_ids
       items = Erp::Products::Product.where(id: ids)
-      return items.map(&:name)
+      return items
+    end
+    
+    # get alternative item names / product names list
+    def get_alternative_item_names
+      return get_alternative_items.map(&:name)
     end
   end
 end
