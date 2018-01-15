@@ -82,8 +82,8 @@
                                             <% if Erp::Core.available?("ortho_k") %>
                                                 <th class="text-left"><%= 'Đ.kiện thay thế' %></th>
                                             <% end %>
-                                            <th width="20%" class="text-right"><%= t('.alternative_items') %></th>
-                                            <th width="10%"></th>
+                                            <th width="25%" class="text-right"><%= t('.alternative_items') %></th>
+                                            <!--<th width="10%"></th>-->
                                             <th width="15%" class="text-right"><%= t('.note') %></th>
                                         </tr>
                                     </thead>
@@ -129,20 +129,20 @@
                                                 <td>
                                                     <%= erp_form_control("dataselect", {
                                                         name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]',
-                                                        values: Erp::Products::Product.where(id: scheck_detail.get_alternative_item_ids).map {|p| {text: p.name, value: p.id}},
+                                                        values: scheck_detail.get_alternative_items.map {|p| {text: p.name_with_stock, value: p.id}},
                                                         placeholder: t('.placeholder_alternative_items'),
-                                                        url: erp_products.dataselect_backend_products_path(format: 'json'),
+                                                        url: erp_products.dataselect_backend_products_path(format: 'json', show_stock: true),
                                                         multiple: true
                                                     }) %>
                                                 </td>
-                                                <td>
+                                                <!--<td>
                                                     <div class="warehouses-stock-info"
                                                         data-control="<%= '[name="scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]"]' %>"
                                                         data-url="<%= erp_order_stock_checks.warehouse_info_backend_schecks_path %>"
                                                     >
 
                                                     </div>
-                                                </td>
+                                                </td>-->
                                                 <td>
                                                    <%= erp_form_control('textarea', {
                                                         name: 'scheck[scheck_details_attributes]['+index.to_s+'][note]',
