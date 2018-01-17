@@ -131,7 +131,7 @@
                                                         name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]',
                                                         values: scheck_detail.get_alternative_items.map {|p| {text: p.name_with_stock, value: p.id}},
                                                         placeholder: t('.placeholder_alternative_items'),
-                                                        url: erp_products.dataselect_backend_products_path(format: 'json', show_stock: true),
+                                                        url: erp_products.dataselect_backend_products_path(format: 'json', show_stock: true, related_with: scheck_detail.order_detail.product_id),
                                                         multiple: true
                                                     }) %>
                                                 </td>
