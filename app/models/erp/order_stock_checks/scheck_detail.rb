@@ -12,12 +12,6 @@ module Erp::OrderStockChecks
 
     # get alternative items / products list
     def get_alternative_items
-      #if Erp::Core.available?("ortho_k")
-      #  if id.nil?
-      #    return order_detail.product.get_alternative_products(min_stock: order_detail.quantity)
-      #  end
-      #end
-
       ids = get_alternative_item_ids
       items = Erp::Products::Product.where(id: ids)
       return items

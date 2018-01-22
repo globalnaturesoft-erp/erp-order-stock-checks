@@ -1,7 +1,6 @@
 module Erp
   module OrderStockChecks
     module ApplicationHelper
-      
       # Order stock check dropdown actions
       def order_stock_check_dropdown_actions(order)
         actions = []
@@ -20,7 +19,7 @@ module Erp
           class: 'ajax-link',
           data_confirm: t('.achieve_confirm')
         } if can? :confirm_stock_check, order
-        
+
         erp_datalist_row_actions(
           actions
         )
