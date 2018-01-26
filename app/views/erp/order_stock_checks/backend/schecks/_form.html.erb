@@ -73,16 +73,14 @@
                     <div class="portlet-body form">
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-advance table-hover table-striped">
+                                <table class="table table-advance table-hover table-striped valign-top">
                                     <thead>
                                         <tr>
                                             <th class="text-left text-nowrap"><%= t('.product_name') %></th>
-                                            <th class="text-center"><%= t('.product_quantity') %></th>
-                                            <th class="text-center"><%= t('.available') %></th>
                                             <% if Erp::Core.available?("ortho_k") %>
                                                 <th class="text-left"><%= 'Đ.kiện thay thế' %></th>
+                                                <th width="25%" class="text-left"><%= t('.alternative_items') %></th>
                                             <% end %>
-                                            <th width="25%" class="text-right"><%= t('.alternative_items') %></th>
                                             <!--<th width="10%"></th>-->
                                             <th width="15%" class="text-right"><%= t('.note') %></th>
                                         </tr>
@@ -91,58 +89,139 @@
                                         <% @scheck.scheck_details.each_with_index do |scheck_detail, index| %>
                                             <input type="hidden" name="scheck[scheck_details_attributes][<%= index.to_s %>][id]" value="<%= scheck_detail.id %>">
                                             <input type="hidden" name="scheck[scheck_details_attributes][<%= index.to_s %>][order_detail_id]" value="<%= scheck_detail.order_detail_id %>">
-                                            <tr class="addableform-line">
-                                                <td><%= scheck_detail.order_detail.product_name %></td>
-                                                <td class="text-center">
-                                                    <span class="text-semibold"><%= scheck_detail.order_detail.quantity %></span>
-                                                    <br />
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock %>)
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </a>
-                                                        <ul class="dropdown-menu">
-                                                            <% Erp::Warehouses::Warehouse.all_active.each do |warehouse| %>
-                                                                <li>
-                                                                    <a href="javascript:;"> <%= warehouse.name %>
-                                                                        <span class="badge badge-success"> <%= scheck_detail.order_detail.product.get_stock(warehouse: warehouse) %> </span>
-                                                                    </a>
-                                                                </li>
-                                                            <% end %>
-                                                        </ul>
+                                            <tr class="addableform-line scheck-row">
+                                                <td>
+                                                    <h4 class="text-nowrap"><%= scheck_detail.order_detail.product_name %></h4>
+                                                    <% if Erp::Core.available?("ortho_k") and (scheck_detail.order_detail.must_same_code? or scheck_detail.order_detail.must_same_diameter?) %>
+                                                        <hr style="margin: 5px 0 5px 0">
+                                                        <div style="font-size: 13px; font-style: italic">
+                                                            <div><%= 'Cùng mã hàng' if scheck_detail.order_detail.must_same_code? %></div>
+                                                            <div><%= 'Cùng đường kính' if scheck_detail.order_detail.must_same_diameter? %></div>
+                                                        </div>
+                                                    <% end %>
+                                                    <div class="text-center">
+                                                        <hr style="margin: 5px 0 5px 0">
+                                                        <span class="text-semibold badge badge-info"><%= scheck_detail.order_detail.quantity %></span>
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock %>)
+                                                                <i class="fa fa-angle-down"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <% Erp::Warehouses::Warehouse.all_active.each do |warehouse| %>
+                                                                    <li>
+                                                                        <a href="javascript:;"> <%= warehouse.name %>
+                                                                            <span class="badge badge-success"> <%= scheck_detail.order_detail.product.get_stock(warehouse: warehouse) %> </span>
+                                                                        </a>
+                                                                    </li>
+                                                                <% end %>
+                                                            </ul>
+                                                        </div>
+                                                        <div style="font-size: 13px; font-weight: 600; font-style: italic">
+                                                            <hr style="margin: 0 0 5px 0">
+                                                            <%= erp_form_control('checkbox', {
+                                                                name: 'scheck[scheck_details_attributes]['+index.to_s+'][available]',
+                                                                id: 'scheck_detail_available',
+                                                                value: scheck_detail.available,
+                                                                not_selected_value: 'false',
+                                                                label: 'Hàng có sẵn',
+                                                                options: [{value: 'true'}]
+                                                            }) %>
+                                                        </div>
                                                     </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <%= erp_form_control('checkbox', {
-                                                        name: 'scheck[scheck_details_attributes]['+index.to_s+'][available]',
-                                                        id: 'scheck_detail_available',
-                                                        value: scheck_detail.available,
-                                                        not_selected_value: 'false',
-                                                        options: [{value: 'true'}]
-                                                    }) %>
                                                 </td>
                                                 <% if Erp::Core.available?("ortho_k") %>
-                                                    <td class="text-left">
-                                                        <div><%= 'Cùng mã hàng' if scheck_detail.order_detail.must_same_code? %></div>
-                                                        <div><%= 'Cùng đường kính' if scheck_detail.order_detail.must_same_diameter? %></div>
+                                                    <td valign="top" style="vertical-align: top" width="30%">
+                                                        <!--<label class="text-semibold">Chọn chữ: </label>-->
+                                                        <table class="text-left check-box-no-padding">
+                                                            <tr>
+                                                                <% scheck_detail.order_detail.product.get_alternative_letters.each_with_index do |letter,i| %>
+                                                                    <% v = (((i == 0 and scheck_detail.order_detail.must_same_code?) or (!scheck_detail.order_detail.must_same_code?)) ? letter : nil) %>
+                                                                    <td>
+                                                                        <label><%= letter %></label>
+                                                                        <%= erp_form_control('checkbox', {
+                                                                            name: 'letters[]',
+                                                                            id: '',
+                                                                            not_selected_value: 'false',
+                                                                            label: '',
+                                                                            value: v,
+                                                                            options: [{value: letter}]
+                                                                        }) %>
+                                                                    </td>
+                                                                <% end %>
+                                                            </tr>
+
+                                                        </table>
+                                                        <hr style="margin: 10px 0 5px 0">
+                                                        <!--<label class="text-semibold mt-10">Chọn số: </label>-->
+                                                        <table class="text-left check-box-no-padding">
+                                                            <tr>
+                                                                <% scheck_detail.order_detail.product.get_alternative_numbers.each_with_index do |number,i| %>
+                                                                    <% v = (((i == 0 and scheck_detail.order_detail.must_same_code?) or (!scheck_detail.order_detail.must_same_code?)) ? number : nil) %>
+                                                                    <td>
+                                                                        <label><%= number %></label>
+                                                                        <%= erp_form_control('checkbox', {
+                                                                            name: 'numbers[]',
+                                                                            id: '',
+                                                                            not_selected_value: 'false',
+                                                                            label: '',
+                                                                            value: v,
+                                                                            options: [{value: number}]
+                                                                        }) %>
+                                                                    </td>
+                                                                <% end %>
+                                                            </tr>
+
+                                                        </table>
+                                                        <hr style="margin: 10px 0 5px 5px">
+                                                        <!--<label class="text-semibold mt-10">Chọn số: </label>-->
+                                                        <% diameter = Erp::Products::Property.where(name: "Đường kính").first %>
+                                                        <% vs = (scheck_detail.order_detail.must_same_diameter? ? [{value: scheck_detail.order_detail.product.get_diameter_id, text: scheck_detail.order_detail.product.get_diameter}] : nil) %>
+                                                        <%= erp_form_control("dataselect", {
+                                                            name: 'diameters[]',
+                                                            values: vs,
+                                                            label: 'Chọn đường kính',
+                                                            placeholder: diameter.name,
+                                                            url: erp_products.dataselect_backend_properties_values_path(format: 'json', property_id: diameter.id),
+                                                            include_blank: t('.all_diameters'),
+                                                            multiple: true
+                                                        }) %>
+                                                    </td>
+                                                    <td width="40%">
+                                                        <div  style="max-height: 400px; overflow-y: auto; overflow: auto">
+                                                            <table class="valign-center bottom-border-width">
+                                                                <% scheck_detail.order_detail.product.get_alternative_products(min_stock: scheck_detail.order_detail.quantity).each_with_index do |item,i| %>
+                                                                    <tr class="scheck-item" data-number="<%= item[:product].get_number %>" data-letter="<%= item[:product].get_letter %>" data-diameter="<%= item[:product].get_diameter_id %>">
+                                                                        <td width="1%" class="check-box-no-padding">
+                                                                            <input type="hidden" name="scheck[scheck_details_attributes][<%= index %>][alternative_items][<%= item[:product].id.to_s %>][product_id]" value="<%= item[:product].id %>" />
+                                                                            <input type="hidden" name="scheck[scheck_details_attributes][<%= index %>][alternative_items][<%= item[:product].id.to_s %>][index]" value="<%= item[:index] %>" />
+                                                                            <%= erp_form_control('checkbox', {
+                                                                                name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items]['+item[:product].id.to_s+'][check]',
+                                                                                id: '',
+                                                                                value: (scheck_detail.get_alternative_ids.include?(item[:product].id) ? item[:product].id : nil),
+                                                                                not_selected_value: 'false',
+                                                                                label: '',
+                                                                                options: [{value: item[:product].id}]
+                                                                            }) %>
+                                                                        </td>
+                                                                        <td><div class="badge badge-info"><%= item[:index] %></div></td>
+                                                                        <td class="text-nowrap">
+                                                                            <%= item[:product].name %> (Tồn: <%= item[:product].cache_stock %>)
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= erp_form_control('text', {
+                                                                                name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items]['+item[:product].id.to_s+'][serials]',
+                                                                                id: '',
+                                                                                value: scheck_detail.get_alternative_serials_by_product_id(item[:product].id),
+                                                                                label: '',
+                                                                                placeholder: 'Số lô/serials'
+                                                                            }) %>
+                                                                        </td>
+                                                                    </tr>
+                                                                <% end %>
+                                                            </table>
+                                                        </div>
                                                     </td>
                                                 <% end %>
-                                                <td>
-                                                    <%= erp_form_control("dataselect", {
-                                                        name: 'scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]',
-                                                        values: scheck_detail.get_alternative_items.map {|p| {text: p.name_with_stock, value: p.id}},
-                                                        placeholder: t('.placeholder_alternative_items'),
-                                                        url: erp_products.dataselect_backend_products_path(format: 'json', show_stock: true, related_with: scheck_detail.order_detail.product_id),
-                                                        multiple: true
-                                                    }) %>
-                                                </td>
-                                                <!--<td>
-                                                    <div class="warehouses-stock-info"
-                                                        data-control="<%= '[name="scheck[scheck_details_attributes]['+index.to_s+'][alternative_items][]"]' %>"
-                                                        data-url="<%= erp_order_stock_checks.warehouse_info_backend_schecks_path %>"
-                                                    >
-
-                                                    </div>
-                                                </td>-->
                                                 <td>
                                                    <%= erp_form_control('textarea', {
                                                         name: 'scheck[scheck_details_attributes]['+index.to_s+'][note]',

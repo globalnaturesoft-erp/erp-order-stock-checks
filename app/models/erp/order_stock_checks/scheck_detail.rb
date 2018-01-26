@@ -3,23 +3,36 @@ module Erp::OrderStockChecks
     belongs_to :scheck, class_name: 'Erp::OrderStockChecks::Scheck'
     belongs_to :order_detail, class_name: 'Erp::Orders::OrderDetail'
 
-    def get_alternative_item_ids
-      return [] if !self.alternative_items.present?
-
-      items = JSON.parse(self.alternative_items).reject(&:empty?)
-      items = items.collect {|item| item.to_i}
-    end
-
     # get alternative items / products list
     def get_alternative_items
-      ids = get_alternative_item_ids
-      items = Erp::Products::Product.where(id: ids)
-      return items
+      return [] if !self.alternative_items.present?
+
+      arr = []
+
+      rows = JSON.parse(self.alternative_items.gsub('=>', ':'))
+      rows.each do |row|
+        data = row[1]
+        if data['check'].present? and data['check'] != 'false'
+          arr << {
+            product: Erp::Products::Product.find(data['product_id']),
+            serials: data['serials'],
+            index: data['index'],
+          }
+        end
+      end
+
+      return arr
     end
 
-    # get alternative item names / product names list
-    def get_alternative_item_names
-      return get_alternative_items.map(&:name)
+    # get alternative ids
+    def get_alternative_ids
+      return (get_alternative_items.map{|item| item[:product].id})
+    end
+
+    # get alternative ids
+    def get_alternative_serials_by_product_id(product_id)
+      items = (get_alternative_items.select{|item| item[:product].id == product_id})
+      return (items.empty? ? nil : items.first[:serials])
     end
   end
 end

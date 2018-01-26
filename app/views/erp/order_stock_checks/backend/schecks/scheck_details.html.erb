@@ -10,8 +10,9 @@
                     <th class="bg-yellow bg-font-yellow text-nowrap text-right"><%= t('.product_price') %></th>
                     <th class="bg-yellow bg-font-yellow text-nowrap text-right"><%= t('.quantity') %></th>
                     <th class="bg-yellow bg-font-yellow text-nowrap text-center"><%= t('.available') %></th>
-                    <th width="20%" class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.note') %></th>
                     <th class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.alternative_items') %></th>
+                    <th width="20%" class="bg-yellow bg-font-yellow text-nowrap text-left"><%= t('.note') %></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -24,8 +25,17 @@
                         <td class="text-center">
                             <%= raw scheck_detail.available? ? '<i class="fa fa-check font-green-jungle"></i>' : '<i class="fa fa-close font-red-thunderbird"></i>' %>
                         </td>
+                        <td class="text-left">
+                            <table width="100%">
+                                <% scheck_detail.get_alternative_items.each do |item| %>
+                                    <tr>
+                                        <td width="1%" class="text-nowrap text-left"><div class="badge badge-info"><%= item[:index] %></div></td>
+                                        <td class="text-nowrap text-left"><%= item[:product].name %></td>
+                                    </tr>
+                                <% end %>
+                            </table>
+                        </td>
                         <td class="text-left"><%= scheck_detail.note %></td>
-                        <td class="text-left"><%= raw scheck_detail.get_alternative_item_names.join('<br>') %></td>
                     </tr>
                 <% end %>
             </tbody>
