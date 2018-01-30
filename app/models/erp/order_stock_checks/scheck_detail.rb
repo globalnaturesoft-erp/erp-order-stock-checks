@@ -10,6 +10,7 @@ module Erp::OrderStockChecks
       arr = []
 
       rows = JSON.parse(self.alternative_items.gsub('=>', ':'))
+      # return rows
       rows.each do |row|
         data = row[1]
         if data['check'].present? and data['check'] != 'false'
