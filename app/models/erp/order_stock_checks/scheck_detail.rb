@@ -13,12 +13,14 @@ module Erp::OrderStockChecks
       # return rows
       rows.each do |row|
         data = row[1]
-        if data['check'].present? and data['check'] != 'false'
-          arr << {
-            product: Erp::Products::Product.find(data['product_id']),
-            serials: data['serials'],
-            index: data['index'],
-          }
+        if data.present?
+          if data['check'].present? and data['check'] != 'false'
+            arr << {
+              product: Erp::Products::Product.find(data['product_id']),
+              serials: data['serials'],
+              index: data['index'],
+            }
+          end
         end
       end
 
