@@ -101,7 +101,7 @@
                                                     <% end %>
                                                     <div class="text-center">
                                                         <hr style="margin: 5px 0 5px 0">
-                                                        <span class="text-semibold badge badge-info"><%= scheck_detail.order_detail.quantity %></span>
+                                                        <span class="text-semibold badge badge-info">Mua <strong><%= scheck_detail.order_detail.quantity %></strong></span>
                                                         <div class="btn-group">
                                                             <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock %>)
                                                                 <i class="fa fa-angle-down"></i>
@@ -203,7 +203,7 @@
                                                                                 options: [{value: item[:product].id}]
                                                                             }) %>
                                                                         </td>
-                                                                        <td><div class="badge badge-info"><%= item[:index] %></div></td>
+                                                                        <td><div class="badge bg-primary"><%= item[:index] %></div></td>
                                                                         <td class="text-nowrap">
                                                                             <%= item[:product].name %> (Tồn: <%= item[:product].cache_stock %>)
                                                                         </td>
