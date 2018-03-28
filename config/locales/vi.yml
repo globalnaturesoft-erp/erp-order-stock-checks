@@ -42,6 +42,7 @@ vi:
             stock_checking: "Đang chờ kiểm tra"
             stock_checked: "Đã kiểm tra hàng"
             stock_approved: "Đã duyệt đủ hàng"
+            confirmed: "Đã xác nhận"
             no_matching_records_found: "Hiện không tìm thấy kết quả phù hợp trong danh sách"
           new:
             stock_checks: "Kiểm tra đơn hàng"
