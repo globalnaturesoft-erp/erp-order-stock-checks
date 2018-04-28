@@ -132,7 +132,7 @@ module Erp
           # Only allow a trusted parameter "white list" through.
           def scheck_params
             params.fetch(:scheck, {}).permit(:code, :employee_id, :order_id,
-                          :scheck_details_attributes => [ :id, :order_detail_id, :available, {:alternative_items => {}}, :note, :_destroy ])
+                          :scheck_details_attributes => [ :id, :order_detail_id, :available, :serials, {:alternative_items => {}}, :note, :_destroy ])
           end
       end
     end

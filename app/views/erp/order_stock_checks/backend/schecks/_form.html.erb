@@ -127,6 +127,15 @@
                                                                 options: [{value: 'true'}]
                                                             }) %>
                                                         </div>
+                                                        <div>
+                                                            <%= erp_form_control('text', {
+                                                                name: 'scheck[scheck_details_attributes]['+index.to_s+'][serials]',
+                                                                id: '',
+                                                                value: scheck_detail.serials,
+                                                                label: '',
+                                                                placeholder: 'Số lô/serials'
+                                                            }) %>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <% if Erp::Core.available?("ortho_k") %>
