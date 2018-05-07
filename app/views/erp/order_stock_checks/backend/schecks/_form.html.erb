@@ -198,7 +198,7 @@
                                                     <td width="40%">
                                                         <div  style="max-height: 400px; overflow-y: auto; overflow: auto">
                                                             <table class="valign-center bottom-border-width">
-                                                                <% scheck_detail.order_detail.product.get_alternative_products(min_stock: scheck_detail.order_detail.quantity).each_with_index do |item,i| %>
+                                                                <% scheck_detail.order_detail.product.get_alternative_products(min_stock: scheck_detail.order_detail.quantity, warehouse_id: scheck_detail.order_detail.order.warehouse_id).each_with_index do |item,i| %>
                                                                     <tr class="scheck-item" data-number="<%= item[:product].get_number %>" data-letter="<%= item[:product].get_letter %>" data-diameter="<%= item[:product].get_diameter_id %>">
                                                                         <td width="1%" class="check-box-no-padding">
                                                                             <input type="hidden" name="scheck[scheck_details_attributes][<%= index %>][alternative_items][<%= item[:product].id.to_s %>][product_id]" value="<%= item[:product].id %>" />
@@ -214,7 +214,7 @@
                                                                         </td>
                                                                         <td><div class="badge bg-primary"><%= item[:index] %></div></td>
                                                                         <td class="text-nowrap">
-                                                                            <%= item[:product].name %> (Tồn: <%= item[:product].cache_stock %>)
+                                                                            <%= item[:product].name %> (Tồn: <%= item[:stock] %>)
                                                                         </td>
                                                                         <td>
                                                                             <%= erp_form_control('text', {
