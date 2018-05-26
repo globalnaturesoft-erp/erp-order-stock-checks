@@ -103,7 +103,7 @@
                                                         <hr style="margin: 5px 0 5px 0">
                                                         <span class="text-semibold badge badge-info">Mua <strong><%= scheck_detail.order_detail.quantity %></strong></span>
                                                         <div class="btn-group">
-                                                            <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock(warehouse_id: scheck_detail.order_detail.order.warehouse_id) %>)
+                                                            <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock(warehouse_id: scheck_detail.order_detail.warehouse_id) %>)
                                                                 <i class="fa fa-angle-down"></i>
                                                             </a>
                                                             <ul class="dropdown-menu">
@@ -197,8 +197,9 @@
                                                     </td>
                                                     <td width="40%">
                                                         <div  style="max-height: 400px; overflow-y: auto; overflow: auto">
+                                                            <h5 class="text-bold"><%= scheck_detail.order_detail.warehouse_name %></h5>
                                                             <table class="valign-center bottom-border-width">
-                                                                <% scheck_detail.order_detail.product.get_alternative_products(min_stock: scheck_detail.order_detail.quantity, warehouse_id: scheck_detail.order_detail.order.warehouse_id).each_with_index do |item,i| %>
+                                                                <% scheck_detail.order_detail.product.get_alternative_products(min_stock: scheck_detail.order_detail.quantity, warehouse_id: scheck_detail.order_detail.warehouse_id).each_with_index do |item,i| %>
                                                                     <tr class="scheck-item" data-number="<%= item[:product].get_number %>" data-letter="<%= item[:product].get_letter %>" data-diameter="<%= item[:product].get_diameter_id %>">
                                                                         <td width="1%" class="check-box-no-padding">
                                                                             <input type="hidden" name="scheck[scheck_details_attributes][<%= index %>][alternative_items][<%= item[:product].id.to_s %>][product_id]" value="<%= item[:product].id %>" />
