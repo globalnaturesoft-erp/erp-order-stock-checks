@@ -31,7 +31,7 @@ module Erp
           @order.order_details.each do |ord|
             @scheck.scheck_details.build(
               order_detail_id: ord.id,
-              available: (ord.quantity <= ord.product.get_stock ? true : false)
+              available: (ord.quantity <= ord.product.get_stock(warehouse_ids: ord.warehouse_id) ? true : false)
             )
           end
 

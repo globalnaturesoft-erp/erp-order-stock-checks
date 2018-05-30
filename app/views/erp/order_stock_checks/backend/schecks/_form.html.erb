@@ -103,7 +103,7 @@
                                                         <hr style="margin: 5px 0 5px 0">
                                                         <span class="text-semibold badge badge-info">Mua <strong><%= scheck_detail.order_detail.quantity %></strong></span>
                                                         <div class="btn-group">
-                                                            <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock(warehouse_id: scheck_detail.order_detail.warehouse_id) %>)
+                                                            <a class="btn btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Tồn kho (<%= scheck_detail.order_detail.product.get_stock(warehouse_ids: scheck_detail.order_detail.warehouse_id) %>)
                                                                 <i class="fa fa-angle-down"></i>
                                                             </a>
                                                             <ul class="dropdown-menu">
